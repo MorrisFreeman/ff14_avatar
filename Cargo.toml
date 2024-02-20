@@ -1,8 +1,9 @@
 [package]
 name = "ff14_avatar"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Yuta Hirata"]
 description = "a tool to get avatar image from lodestone"
+repository = "https://github.com/MorrisFreeman/ff14_avatar"
 license = "MIT"
 edition = "2021"
 
