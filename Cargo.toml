@@ -1,6 +1,9 @@
 [package]
 name = "ff14_avatar"
 version = "0.1.0"
+authors = ["Yuta Hirata"]
+description = "a tool to get avatar image from lodestone"
+license = "MIT"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
