@@ -31,6 +31,7 @@ pub struct FF14Avatar {
     pub achievements: Achievements,
     pub minions: Minions,
     pub mounts: Mounts,
+    pub fetched_at: DateTime<Utc>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -213,6 +214,8 @@ pub async fn fetch_avatar(id: &str) -> FF14Avatar {
         count,
     };
 
+    let fetched_at = Utc::now();
+
     FF14Avatar {
         id: id.to_string(),
         name,
@@ -221,5 +224,6 @@ pub async fn fetch_avatar(id: &str) -> FF14Avatar {
         achievements,
         minions,
         mounts,
+        fetched_at,
     }
 }
