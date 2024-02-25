@@ -36,32 +36,32 @@ pub struct FF14Avatar {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Mount {
-    name: String,
-    image_url: String,
+    pub name: String,
+    pub image_url: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Mounts {
-    items: Vec<Mount>,
-    count: i32,
+    pub items: Vec<Mount>,
+    pub count: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Minions {
-    items: Vec<Minion>,
-    count: i32,
+    pub items: Vec<Minion>,
+    pub count: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Minion {
-    name: String,
-    image_url: String,
+    pub name: String,
+    pub image_url: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Achievements {
-    items: Vec<Achievement>,
-    count: i32,
+    pub items: Vec<Achievement>,
+    pub count: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -75,9 +75,9 @@ type Jobs = Vec<Job>;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Job {
-    name: String,
-    level: String,
-    image_url: String,
+    pub name: String,
+    pub level: String,
+    pub image_url: String,
 }
 
 /// Fetches FF14 character avatars.
