@@ -2,7 +2,7 @@ use ff14_avatar::fetch_avatar;
 
 #[tokio::main]
 async fn main() {
-    let id = "31270495";
+    let id = "Your ID here.";
     let avatar = fetch_avatar(id).await;
     println!("ID: {}", avatar.id);
     println!("Name: {}", avatar.name);
