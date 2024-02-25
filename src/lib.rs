@@ -19,11 +19,10 @@
 use scraper::Selector;
 use regex::Regex;
 use chrono::{TimeZone, DateTime, Utc};
-use chrono_tz::{Asia::Tokyo, Tz};
-
+use serde::{Serialize, Deserialize};
 
 /// A FF14 character avatar.
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct FF14Avatar {
     pub id: String,
     pub name: String,
@@ -34,46 +33,46 @@ pub struct FF14Avatar {
     pub mounts: Mounts,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Mount {
     name: String,
     image_url: String,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Mounts {
     items: Vec<Mount>,
     count: i32,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Minions {
     items: Vec<Minion>,
     count: i32,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Minion {
     name: String,
     image_url: String,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Achievements {
     items: Vec<Achievement>,
     count: i32,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Achievement {
     pub title: String,
-    pub date: DateTime<Tz>,
+    pub date: DateTime<Utc>,
     pub image_url: String,
 }
 
 type Jobs = Vec<Job>;
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Job {
     name: String,
     level: String,
@@ -147,8 +146,7 @@ pub async fn fetch_avatar(id: &str) -> FF14Avatar {
         let date_script = date_node.text().collect::<Vec<_>>().join("");
         let re = Regex::new(r"ldst_strftime\((\d+), 'YMD'\)").unwrap();
         let timestamp = re.captures(&date_script).unwrap().get(1).unwrap().as_str().parse().unwrap(); // TODO: エラーになるかもしれない
-        let datetime_utc = Utc.timestamp_opt(timestamp, 0).unwrap();
-        let date: chrono::prelude::DateTime<_> = datetime_utc.with_timezone(&Tokyo);
+        let date = Utc.timestamp_opt(timestamp, 0).unwrap();
         let title_node = node.select(&Selector::parse(".entry__activity__txt").unwrap()).next().unwrap();
         let title = title_node.text().collect::<Vec<_>>().join("");
         let achievement = Achievement {
