@@ -1,3 +1,5 @@
+use std::hash;
+
 /// This is the main file for the library.
 ///
 /// The library is responsible for fetching FF14 character avatars.
@@ -20,6 +22,8 @@ use scraper::Selector;
 use regex::Regex;
 use chrono::{TimeZone, DateTime, Utc};
 use serde::{Serialize, Deserialize};
+use sha2::{Digest, Sha256};
+use hex;
 
 /// A FF14 character avatar.
 #[derive(Serialize, Deserialize, Debug)]
@@ -32,6 +36,7 @@ pub struct FF14Avatar {
     pub minions: Minions,
     pub mounts: Mounts,
     pub fetched_at: DateTime<Utc>,
+    pub image_hash: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -116,6 +121,12 @@ pub async fn fetch_avatar(id: &str) -> FF14Avatar {
     let node = doc.select(&image_sel).next().unwrap();
     let href = node.value().attr("href").unwrap();
     let image_url = href.to_string();
+    let res = reqwest::get(&image_url).await.unwrap();
+    let bytes = res.bytes().await.unwrap();
+    let mut hasher = Sha256::new();
+    hasher.update(&bytes);
+    let hash_result = hasher.finalize();
+    let image_hash = hex::encode(hash_result);
 
     // Get the character jobs
     let mut jobs: Vec<Job> = Vec::new();
@@ -225,5 +236,6 @@ pub async fn fetch_avatar(id: &str) -> FF14Avatar {
         minions,
         mounts,
         fetched_at,
+        image_hash,
     }
 }

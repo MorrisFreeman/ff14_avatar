@@ -11,4 +11,6 @@ async fn main() {
     println!("Achievements: {:?}", avatar.achievements);
     println!("Minions: {:?}", avatar.minions);
     println!("Mounts: {:?}", avatar.mounts);
+    println!("Fetched at: {}", avatar.fetched_at);
+    println!("Image hash: {}", avatar.image_hash);
 }
